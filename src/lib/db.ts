@@ -1,0 +1,534 @@
+import fs from 'fs';
+import path from 'path';
+import {
+  User,
+  Company,
+  Occurrence,
+  AuditLog,
+  InAppNotification,
+  OccurrencePriority,
+  OccurrenceType,
+  OccurrenceStatus,
+  UserRole,
+} from '../types';
+
+interface DatabaseSchema {
+  users: User[];
+  companies: Company[];
+  occurrences: Occurrence[];
+  auditLogs: AuditLog[];
+  notifications: InAppNotification[];
+}
+
+const DB_DIR = path.join(process.cwd(), 'data');
+const DB_FILE = path.join(DB_DIR, 'gota-db.json');
+
+// Sementes iniciais com dados de demonstração em Moçambique
+const initialSeeds: DatabaseSchema = {
+  users: [
+    {
+      id: 'usr_cidadao_1',
+      name: 'Joaquim Sitoe',
+      email: 'joaquim.sitoe@exemplo.mz',
+      phone: '+258 84 123 4567',
+      role: 'cidadao',
+      createdAt: '2026-03-01T08:00:00Z',
+    },
+    {
+      id: 'usr_empresa_1',
+      name: 'Eng. Alberto Munguambe',
+      email: 'operacoes@fipag-maputo.co.mz',
+      phone: '+258 82 999 1122',
+      role: 'empresa',
+      companyId: 'comp_fipag_maputo',
+      createdAt: '2026-02-15T09:30:00Z',
+    },
+    {
+      id: 'usr_admin_1',
+      name: 'Carla Mondlane',
+      email: 'admin@gota.org.mz',
+      phone: '+258 87 555 4321',
+      role: 'admin',
+      createdAt: '2026-01-10T10:00:00Z',
+    },
+  ],
+  companies: [
+    {
+      id: 'comp_fipag_maputo',
+      officialName: 'FIPAG: Região Metropolitana de Maputo',
+      nuit: '400123987',
+      address: 'Av. Eduardo Mondlane, n.º 1450',
+      province: 'Maputo Cidade',
+      city: 'Maputo',
+      phone: '+258 21 300 400',
+      email: 'atendimento@fipag-maputo.co.mz',
+      representativeName: 'Eng. Alberto Munguambe',
+      serviceAreas: [
+        'Polana Caniço A',
+        'Polana Caniço B',
+        'Maxaquene',
+        'Bairro Central',
+        'Chamanculo',
+        'Sommerschield',
+        'Zimpeto',
+        'Matola Rio',
+      ],
+      servicesDescription: 'Captação, tratamento, distribuição e manutenção da rede de água potável na Grande Maputo.',
+      status: 'verificada',
+      verifiedAt: '2026-02-16T11:00:00Z',
+      verifiedBy: 'Carla Mondlane (Administração)',
+      createdAt: '2026-02-15T09:00:00Z',
+    },
+    {
+      id: 'comp_aguas_matola',
+      officialName: 'Consórcio Águas da Matola e Boane',
+      nuit: '400987123',
+      address: 'Estrada Velha da Matola, km 4',
+      province: 'Maputo Província',
+      city: 'Matola',
+      phone: '+258 21 720 100',
+      email: 'suporte@aguasmatola.co.mz',
+      representativeName: 'Dr. Salvador Cossa',
+      serviceAreas: ['Matola C', 'Machava', 'Tsalala', 'Boane'],
+      servicesDescription: 'Operação complementar e manutenção da rede de adutoras na Matola e Boane.',
+      status: 'pendente',
+      createdAt: '2026-03-08T14:20:00Z',
+    },
+  ],
+  occurrences: [
+    {
+      id: 'occ_101',
+      code: 'GOTA-2026-1042',
+      type: 'tubagem_rompida',
+      typeLabel: 'Tubagem rompida',
+      description: 'Cano mestre rebentado perto da bomba de combustível. Grande caudal de água potável a escorrer para a estrada.',
+      status: 'em_resolucao',
+      priority: 'critica',
+      priorityNeedsConfirmation: false,
+      priorityReason: 'Grande volume aparente de água limpa a alagar via movimentada com risco para tráfego.',
+      location: {
+        latitude: -25.9381,
+        longitude: 32.5852,
+        province: 'Maputo Cidade',
+        city: 'Maputo',
+        neighborhood: 'Polana Caniço B',
+        street: 'Av. Vladimir Lenine',
+        referencePoint: 'A 50 metros da paragem de chapa da Dona Alice',
+        isGpsAccurate: true,
+      },
+      photos: [
+        'https://images.unsplash.com/photo-1585314062340-f1a5a7c9328d?w=800&auto=format&fit=crop&q=80',
+      ],
+      reporterContact: {
+        name: 'Joaquim Sitoe',
+        phone: '+258 84 123 4567',
+        userId: 'usr_cidadao_1',
+      },
+      assignedCompanyId: 'comp_fipag_maputo',
+      assignedCompanyName: 'FIPAG: Região Metropolitana de Maputo',
+      assignedTechnician: 'Equipa Técnica Brigada 3',
+      reportedAt: '2026-03-09T07:15:00Z',
+      firstResponseAt: '2026-03-09T08:30:00Z',
+      history: [
+        {
+          id: 'hist_1',
+          previousStatus: null,
+          newStatus: 'recebida',
+          changedBy: 'Joaquim Sitoe (Cidadão)',
+          changedByRole: 'cidadao',
+          note: 'Ocorrência comunicada pelo cidadão através da aplicação.',
+          timestamp: '2026-03-09T07:15:00Z',
+        },
+        {
+          id: 'hist_2',
+          previousStatus: 'recebida',
+          newStatus: 'em_analise',
+          changedBy: 'Sistema Gota',
+          changedByRole: 'admin',
+          note: 'Classificação de prioridade crítica atribuída com base no volume e alagamento na via.',
+          timestamp: '2026-03-09T07:16:00Z',
+        },
+        {
+          id: 'hist_3',
+          previousStatus: 'em_analise',
+          newStatus: 'encaminhada',
+          changedBy: 'Carla Mondlane (Administração)',
+          changedByRole: 'admin',
+          note: 'Encaminhada formalmente para a FIPAG de acordo com a área de concessão de Polana Caniço B.',
+          timestamp: '2026-03-09T08:30:00Z',
+        },
+        {
+          id: 'hist_4',
+          previousStatus: 'encaminhada',
+          newStatus: 'em_resolucao',
+          changedBy: 'Eng. Alberto Munguambe (FIPAG)',
+          changedByRole: 'empresa',
+          note: 'Válvula de seccionamento isolada. Brigada 3 no local a substituir o troço de conduta de 110mm.',
+          timestamp: '2026-03-09T10:00:00Z',
+        },
+      ],
+    },
+    {
+      id: 'occ_102',
+      code: 'GOTA-2026-1043',
+      type: 'fuga_visivel',
+      typeLabel: 'Fuga visível',
+      description: 'Fuga persistente no passeio junto ao muro residencial. Água a verter há mais de 3 dias.',
+      status: 'intervencao_programada',
+      priority: 'media',
+      priorityNeedsConfirmation: false,
+      priorityReason: 'Desperdício contínuo de água limpa, sem obstrução de via nem risco estrutural imediato.',
+      location: {
+        latitude: -25.9525,
+        longitude: 32.5714,
+        province: 'Maputo Cidade',
+        city: 'Maputo',
+        neighborhood: 'Maxaquene',
+        street: 'Rua de Luanda, casa 32',
+        referencePoint: 'Perto do mercado informal',
+        isGpsAccurate: true,
+      },
+      photos: [
+        'https://images.unsplash.com/photo-1541888946425-d0fbb186f5f8?w=800&auto=format&fit=crop&q=80',
+      ],
+      assignedCompanyId: 'comp_fipag_maputo',
+      assignedCompanyName: 'FIPAG: Região Metropolitana de Maputo',
+      assignedTechnician: 'Equipa de Manutenção B',
+      reportedAt: '2026-03-08T11:40:00Z',
+      firstResponseAt: '2026-03-08T15:00:00Z',
+      history: [
+        {
+          id: 'hist_102_1',
+          previousStatus: null,
+          newStatus: 'recebida',
+          changedBy: 'Anónimo (Cidadão)',
+          changedByRole: 'cidadao',
+          note: 'Comunicação registada sem registo de conta.',
+          timestamp: '2026-03-08T11:40:00Z',
+        },
+        {
+          id: 'hist_102_2',
+          previousStatus: 'recebida',
+          newStatus: 'encaminhada',
+          changedBy: 'Sistema Gota',
+          changedByRole: 'admin',
+          note: 'Encaminhada automaticamente para a FIPAG.',
+          timestamp: '2026-03-08T12:00:00Z',
+        },
+        {
+          id: 'hist_102_3',
+          previousStatus: 'encaminhada',
+          newStatus: 'intervencao_programada',
+          changedBy: 'Eng. Alberto Munguambe (FIPAG)',
+          changedByRole: 'empresa',
+          note: 'Inspeção preliminar realizada. Intervenção agendada para reparação do ramal predial.',
+          timestamp: '2026-03-08T15:00:00Z',
+        },
+      ],
+    },
+    {
+      id: 'occ_103',
+      code: 'GOTA-2026-1039',
+      type: 'agua_alagar_via',
+      typeLabel: 'Água a alagar a via pública',
+      description: 'Água abundante a sair sob o asfalto, criando poça funda na curva.',
+      status: 'resolvida',
+      priority: 'alta',
+      priorityNeedsConfirmation: false,
+      priorityReason: 'Alagamento da faixa de rodagem com deterioração do pavimento.',
+      location: {
+        latitude: -25.9689,
+        longitude: 32.5898,
+        province: 'Maputo Cidade',
+        city: 'Maputo',
+        neighborhood: 'Bairro Central',
+        street: 'Av. 24 de Julho esquina com Av. Karl Marx',
+        referencePoint: 'Frente ao edifício dos Correios',
+        isGpsAccurate: true,
+      },
+      photos: [
+        'https://images.unsplash.com/photo-1541888946425-d0fbb186f5f8?w=800&auto=format&fit=crop&q=80',
+      ],
+      assignedCompanyId: 'comp_fipag_maputo',
+      assignedCompanyName: 'FIPAG: Região Metropolitana de Maputo',
+      assignedTechnician: 'Brigada 1 (FIPAG)',
+      reportedAt: '2026-03-06T09:10:00Z',
+      firstResponseAt: '2026-03-06T10:00:00Z',
+      resolvedAt: '2026-03-06T16:45:00Z',
+      history: [
+        {
+          id: 'hist_103_1',
+          previousStatus: null,
+          newStatus: 'recebida',
+          changedBy: 'Marta C. (Cidadã)',
+          changedByRole: 'cidadao',
+          note: 'Comunicação submetida pelo formulário web.',
+          timestamp: '2026-03-06T09:10:00Z',
+        },
+        {
+          id: 'hist_103_2',
+          previousStatus: 'recebida',
+          newStatus: 'em_resolucao',
+          changedBy: 'Eng. Alberto Munguambe (FIPAG)',
+          changedByRole: 'empresa',
+          note: 'Brigada enviada com retroescavadora para localização da junta rompida.',
+          timestamp: '2026-03-06T11:20:00Z',
+        },
+        {
+          id: 'hist_103_3',
+          previousStatus: 'em_resolucao',
+          newStatus: 'resolvida',
+          changedBy: 'Eng. Alberto Munguambe (FIPAG)',
+          changedByRole: 'empresa',
+          note: 'Junta de ferro fundido reparada com abraçadeira mecânica reforçada. Pavimento recomposto provisoriamente.',
+          evidenceUrl: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80',
+          timestamp: '2026-03-06T16:45:00Z',
+        },
+      ],
+    },
+    {
+      id: 'occ_104',
+      code: 'GOTA-2026-1044',
+      type: 'fuga_subterranea',
+      typeLabel: 'Possível fuga subterrânea',
+      description: 'O solo está afundado e a terra está permanentemente empapada de água limpa, mesmo em dias secos.',
+      status: 'em_analise',
+      priority: 'alta',
+      priorityNeedsConfirmation: true,
+      priorityReason: 'Possível fuga subterrânea com risco de abatimento de solo. Requer confirmação técnica no terreno.',
+      location: {
+        latitude: -25.8601,
+        longitude: 32.5592,
+        province: 'Maputo Cidade',
+        city: 'Maputo',
+        neighborhood: 'Zimpeto',
+        street: 'Próximo ao Estádio Nacional do Zimpeto',
+        referencePoint: 'Ao lado da rotunda de acesso à circular',
+        isGpsAccurate: true,
+      },
+      photos: [],
+      assignedCompanyId: 'comp_fipag_maputo',
+      assignedCompanyName: 'FIPAG: Região Metropolitana de Maputo',
+      reportedAt: '2026-03-09T14:00:00Z',
+      history: [
+        {
+          id: 'hist_104_1',
+          previousStatus: null,
+          newStatus: 'recebida',
+          changedBy: 'Raimundo Bila (Cidadão)',
+          changedByRole: 'cidadao',
+          note: 'Comunicação registada.',
+          timestamp: '2026-03-09T14:00:00Z',
+        },
+        {
+          id: 'hist_104_2',
+          previousStatus: 'recebida',
+          newStatus: 'em_analise',
+          changedBy: 'Carla Mondlane (Administração)',
+          changedByRole: 'admin',
+          note: 'Sinalizada para averiguação geoacústica pela concessionária.',
+          timestamp: '2026-03-09T14:30:00Z',
+        },
+      ],
+    },
+  ],
+  auditLogs: [
+    {
+      id: 'aud_1',
+      timestamp: '2026-02-16T11:00:00Z',
+      userId: 'usr_admin_1',
+      userName: 'Carla Mondlane',
+      userRole: 'admin',
+      action: 'APROVACAO_EMPRESA',
+      targetType: 'empresa',
+      targetId: 'comp_fipag_maputo',
+      details: 'Empresa FIPAG (Região Metropolitana de Maputo) aprovada como verificada após conferência documental.',
+    },
+    {
+      id: 'aud_2',
+      timestamp: '2026-03-09T08:30:00Z',
+      userId: 'usr_admin_1',
+      userName: 'Carla Mondlane',
+      userRole: 'admin',
+      action: 'ENCAMINHAMENTO_OCORRENCIA',
+      targetType: 'ocorrencia',
+      targetId: 'occ_101',
+      details: 'Ocorrência GOTA-2026-1042 encaminhada para FIPAG.',
+    },
+  ],
+  notifications: [
+    {
+      id: 'notif_1',
+      userId: 'usr_cidadao_1',
+      title: 'A tua ocorrência está a ser reparada',
+      message: 'A FIPAG iniciou a intervenção na ocorrência GOTA-2026-1042 em Polana Caniço B.',
+      type: 'info',
+      read: false,
+      link: '/ocorrencias/occ_101',
+      createdAt: '2026-03-09T10:00:00Z',
+    },
+  ],
+};
+
+// Carregamento e sincronização em ficheiro JSON
+let inMemoryDb: DatabaseSchema | null = null;
+
+function ensureDbDirectory() {
+  if (!fs.existsSync(DB_DIR)) {
+    fs.mkdirSync(DB_DIR, { recursive: true });
+  }
+}
+
+export function getDatabase(): DatabaseSchema {
+  if (inMemoryDb) {
+    return inMemoryDb;
+  }
+
+  ensureDbDirectory();
+
+  if (fs.existsSync(DB_FILE)) {
+    try {
+      const data = fs.readFileSync(DB_FILE, 'utf-8');
+      inMemoryDb = JSON.parse(data);
+      return inMemoryDb!;
+    } catch (err) {
+      console.warn('Aviso: Erro ao ler base de dados JSON. A utilizar sementes iniciais.', err);
+      inMemoryDb = initialSeeds;
+      saveDatabase(inMemoryDb);
+      return inMemoryDb;
+    }
+  }
+
+  inMemoryDb = initialSeeds;
+  saveDatabase(inMemoryDb);
+  return inMemoryDb;
+}
+
+export function saveDatabase(db: DatabaseSchema): void {
+  try {
+    ensureDbDirectory();
+    fs.writeFileSync(DB_FILE, JSON.stringify(db, null, 2), 'utf-8');
+    inMemoryDb = db;
+  } catch (err) {
+    console.error('Erro ao guardar a base de dados em ficheiro:', err);
+  }
+}
+
+// ==========================================
+// MÉTODOS DE CÁLCULO E REGRAS DE NEGÓCIO
+// ==========================================
+
+export function calculatePriority(factors: {
+  type: OccurrenceType;
+  floodingRoad: boolean;
+  highVolume: boolean;
+  nearBusyRoad: boolean;
+  infrastructureRisk: boolean;
+}): { priority: OccurrencePriority; needsConfirmation: boolean; reason: string } {
+  let score = 0;
+  const reasons: string[] = [];
+
+  if (factors.floodingRoad) {
+    score += 4;
+    reasons.push('água a alagar a via');
+  }
+
+  if (factors.highVolume) {
+    score += 3;
+    reasons.push('grande volume visível');
+  }
+
+  if (factors.nearBusyRoad) {
+    score += 2;
+    reasons.push('proximidade de via com trânsito');
+  }
+
+  if (factors.infrastructureRisk) {
+    score += 4;
+    reasons.push('risco para estruturas ou residências');
+  }
+
+  if (factors.type === 'tubagem_rompida') {
+    score += 3;
+    reasons.push('tubagem de distribuição rompida');
+  } else if (factors.type === 'fuga_subterranea') {
+    score += 2;
+    reasons.push('potencial cavitação subterrânea');
+  }
+
+  let priority: OccurrencePriority = 'baixa';
+  if (score >= 8) {
+    priority = 'critica';
+  } else if (score >= 5) {
+    priority = 'alta';
+  } else if (score >= 2) {
+    priority = 'media';
+  }
+
+  const needsConfirmation = factors.type === 'fuga_subterranea' || !factors.highVolume;
+  const reasonText = reasons.length > 0
+    ? `Classificação baseada em: ${reasons.join(', ')}.`
+    : 'Prioridade preliminar calculada com dados básicos.';
+
+  return {
+    priority,
+    needsConfirmation,
+    reason: reasonText,
+  };
+}
+
+export function detectDuplicates(
+  neighborhood: string,
+  type: OccurrenceType,
+  latitude?: number,
+  longitude?: number
+): Occurrence[] {
+  const db = getDatabase();
+  const normalizedNeighborhood = neighborhood.trim().toLowerCase();
+
+  return db.occurrences.filter((occ) => {
+    if (occ.status === 'resolvida' || occ.status === 'encerrada' || occ.status === 'rejeitada') {
+      return false;
+    }
+
+    const sameNeigh = occ.location.neighborhood.trim().toLowerCase() === normalizedNeighborhood;
+    const sameType = occ.type === type;
+
+    // Se houver coordenadas de GPS, verificar distância aproximada (~500m)
+    let isGeographicallyClose = false;
+    if (latitude && longitude && occ.location.latitude && occ.location.longitude) {
+      const latDiff = Math.abs(occ.location.latitude - latitude);
+      const lonDiff = Math.abs(occ.location.longitude - longitude);
+      if (latDiff < 0.005 && lonDiff < 0.005) {
+        isGeographicallyClose = true;
+      }
+    }
+
+    return (sameNeigh && sameType) || isGeographicallyClose;
+  });
+}
+
+export function logAudit(
+  userId: string,
+  userName: string,
+  userRole: UserRole,
+  action: string,
+  targetType: 'ocorrencia' | 'empresa' | 'utilizador' | 'sistema',
+  targetId: string,
+  details: string
+): void {
+  const db = getDatabase();
+  const entry: AuditLog = {
+    id: `aud_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
+    timestamp: new Date().toISOString(),
+    userId,
+    userName,
+    userRole,
+    action,
+    targetType,
+    targetId,
+    details,
+  };
+  db.auditLogs.unshift(entry);
+  saveDatabase(db);
+}

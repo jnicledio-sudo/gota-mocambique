@@ -1,0 +1,222 @@
+@import "tailwindcss";
+
+:root {
+  --color-primary: #123B5D;       /* Azul profundo */
+  --color-accent: #20B8D5;        /* Azul cristalino */
+  --color-secondary: #62D6BE;     /* Verde-água */
+  --color-bg-light: #F8FAFC;      /* Fundo suave estilo Apple */
+  --color-text-main: #1D2939;     /* Texto principal ultra-nítido */
+  --color-text-muted: #667085;    /* Texto secundário */
+  --color-border: #E4E7EC;        /* Bordas discretas */
+  --color-danger: #D94848;        /* Erro e urgência */
+  --color-warning: #E5A23C;       /* Aviso */
+}
+
+body {
+  background-color: var(--color-bg-light);
+  color: var(--color-text-main);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ========================================================
+   ANIMAÇÃO REAL DA GOTA DE ÁGUA A CAIR (FALLING DROP)
+   E ONDULAÇÕES CONCÊNTRICAS (RIPPLE EFFECT)
+   ======================================================== */
+
+@keyframes waterDropFall {
+  0% {
+    transform: translateY(-8px) scale(0.6, 0.7);
+    opacity: 0;
+  }
+  12% {
+    transform: translateY(0px) scale(0.9, 1.1);
+    opacity: 1;
+  }
+  30% {
+    transform: translateY(12px) scale(0.95, 1.15);
+    opacity: 1;
+  }
+  48% {
+    transform: translateY(38px) scale(0.85, 1.35);
+    opacity: 1;
+  }
+  54% {
+    transform: translateY(46px) scale(1.4, 0.4);
+    opacity: 1;
+  }
+  58% {
+    transform: translateY(45px) scale(0.3, 0.3);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(-8px) scale(0.6, 0.7);
+    opacity: 0;
+  }
+}
+
+@keyframes waterRipple1 {
+  0%, 50% {
+    transform: scale(0.1);
+    opacity: 0;
+  }
+  54% {
+    transform: scale(0.25);
+    opacity: 0.9;
+  }
+  75% {
+    transform: scale(0.85);
+    opacity: 0.45;
+  }
+  96%, 100% {
+    transform: scale(1.4);
+    opacity: 0;
+  }
+}
+
+@keyframes waterRipple2 {
+  0%, 58% {
+    transform: scale(0.1);
+    opacity: 0;
+  }
+  62% {
+    transform: scale(0.25);
+    opacity: 0.7;
+  }
+  85% {
+    transform: scale(0.9);
+    opacity: 0.3;
+  }
+  100% {
+    transform: scale(1.35);
+    opacity: 0;
+  }
+}
+
+@keyframes waterSplashRebound {
+  0%, 52% {
+    transform: translateY(46px) scale(0);
+    opacity: 0;
+  }
+  57% {
+    transform: translateY(34px) scale(0.7);
+    opacity: 0.85;
+  }
+  64% {
+    transform: translateY(46px) scale(0.2);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(46px) scale(0);
+    opacity: 0;
+  }
+}
+
+.anim-drop-falling {
+  animation: waterDropFall 2.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  transform-origin: center;
+}
+
+.anim-water-ripple-1 {
+  animation: waterRipple1 2.6s cubic-bezier(0.1, 0.8, 0.2, 1) infinite;
+  transform-origin: center;
+}
+
+.anim-water-ripple-2 {
+  animation: waterRipple2 2.6s cubic-bezier(0.1, 0.8, 0.2, 1) infinite;
+  transform-origin: center;
+}
+
+.anim-splash-rebound {
+  animation: waterSplashRebound 2.6s cubic-bezier(0.1, 0.8, 0.2, 1) infinite;
+  transform-origin: center;
+}
+
+/* Suporte à preferência por movimento reduzido */
+@media (prefers-reduced-motion: reduce) {
+  .anim-drop-falling,
+  .anim-water-ripple-1,
+  .anim-water-ripple-2,
+  .anim-splash-rebound {
+    animation: none !important;
+  }
+}
+
+/* ========================================================
+   ESTILOS VISUAIS E COMPONENTES APPLE / iOS / macOS
+   ======================================================== */
+
+.apple-card {
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(228, 231, 236, 0.8);
+  box-shadow: 0 4px 20px -2px rgba(18, 59, 93, 0.04), 0 2px 6px -1px rgba(0, 0, 0, 0.02);
+  border-radius: 1.5rem;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.apple-card:hover {
+  border-color: rgba(32, 184, 213, 0.4);
+  box-shadow: 0 12px 32px -4px rgba(18, 59, 93, 0.08), 0 4px 12px -2px rgba(0, 0, 0, 0.03);
+}
+
+.apple-btn-primary {
+  background: linear-gradient(180deg, #20B8D5 0%, #17A0BB 100%);
+  color: #FFFFFF;
+  font-weight: 600;
+  border-radius: 9999px;
+  box-shadow: 0 4px 14px rgba(32, 184, 213, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  transition: all 0.2s ease-out;
+}
+
+.apple-btn-primary:hover {
+  filter: brightness(1.05);
+  box-shadow: 0 6px 20px rgba(32, 184, 213, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.apple-btn-primary:active {
+  transform: scale(0.97);
+}
+
+.apple-btn-secondary {
+  background: rgba(255, 255, 255, 0.9);
+  color: #123B5D;
+  font-weight: 600;
+  border: 1px solid #E4E7EC;
+  border-radius: 9999px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+  transition: all 0.2s ease-out;
+}
+
+.apple-btn-secondary:hover {
+  background: #FFFFFF;
+  border-color: #CBD5E1;
+}
+
+.apple-btn-secondary:active {
+  transform: scale(0.97);
+}
+
+.apple-input {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid #E4E7EC;
+  border-radius: 0.875rem;
+  transition: all 0.2s ease-out;
+}
+
+.apple-input:focus {
+  outline: none;
+  border-color: #20B8D5;
+  box-shadow: 0 0 0 3px rgba(32, 184, 213, 0.15);
+  background: #FFFFFF;
+}
+
+/* Fundo com iluminação ambiente suave */
+.apple-bg-ambient {
+  background: radial-gradient(100% 60% at 50% -10%, rgba(32, 184, 213, 0.08) 0%, rgba(248, 250, 252, 0) 100%), #F8FAFC;
+}
