@@ -1,6 +1,11 @@
 import { cookies } from 'next/headers';
+import crypto from 'crypto';
 import { getDatabase } from './db';
 import { User, UserRole } from '../types';
+
+export function hashPassword(plain: string): string {
+  return crypto.createHash('sha256').update(plain).digest('hex');
+}
 
 const SESSION_COOKIE_NAME = 'gota_session_user_id';
 

@@ -41,6 +41,7 @@ const initialSeeds: DatabaseSchema = {
       phone: '+258 82 999 1122',
       role: 'empresa',
       companyId: 'comp_fipag_maputo',
+      passwordHash: 'cb33c7f5fb6dd6653e89965ef05daf009b7a9d365e78b16722fcf69ca1d377a1',
       createdAt: '2026-02-15T09:30:00Z',
     },
     {
@@ -49,6 +50,7 @@ const initialSeeds: DatabaseSchema = {
       email: 'admin@gota.org.mz',
       phone: '+258 87 555 4321',
       role: 'admin',
+      passwordHash: '6051fc84a7a0d74c225fb18a496b09952da5642e60723ecae543298edd7d82d6',
       createdAt: '2026-01-10T10:00:00Z',
     },
   ],

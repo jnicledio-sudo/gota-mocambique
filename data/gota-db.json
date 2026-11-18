@@ -1,361 +1,365 @@
-{
-  "users": [
-    {
-      "id": "usr_cidadao_1",
-      "name": "Joaquim Sitoe",
-      "email": "joaquim.sitoe@exemplo.mz",
-      "phone": "+258 84 123 4567",
-      "role": "cidadao",
-      "createdAt": "2026-03-01T08:00:00Z"
-    },
-    {
-      "id": "usr_empresa_1",
-      "name": "Eng. Alberto Munguambe",
-      "email": "operacoes@fipag-maputo.co.mz",
-      "phone": "+258 82 999 1122",
-      "role": "empresa",
-      "companyId": "comp_fipag_maputo",
-      "createdAt": "2026-02-15T09:30:00Z"
-    },
-    {
-      "id": "usr_admin_1",
-      "name": "Carla Mondlane",
-      "email": "admin@gota.org.mz",
-      "phone": "+258 87 555 4321",
-      "role": "admin",
-      "createdAt": "2026-01-10T10:00:00Z"
-    }
-  ],
-  "companies": [
-    {
-      "id": "comp_fipag_maputo",
-      "officialName": "FIPAG  -  Área Metropolitana de Maputo",
-      "nuit": "400123987",
-      "address": "Av. Eduardo Mondlane, n.º 1450",
-      "province": "Maputo Cidade",
-      "city": "Maputo",
-      "phone": "+258 21 300 400",
-      "email": "atendimento@fipag-maputo.co.mz",
-      "representativeName": "Eng. Alberto Munguambe",
-      "serviceAreas": [
-        "Polana Caniço A",
-        "Polana Caniço B",
-        "Maxaquene",
-        "Bairro Central",
-        "Chamanculo",
-        "Sommerschield",
-        "Zimpeto",
-        "Matola Rio"
-      ],
-      "servicesDescription": "Captação, tratamento, distribuição e manutenção da rede de água potável na Grande Maputo.",
-      "status": "verificada",
-      "verifiedAt": "2026-02-16T11:00:00Z",
-      "verifiedBy": "Carla Mondlane (Administração)",
-      "createdAt": "2026-02-15T09:00:00Z"
-    },
-    {
-      "id": "comp_aguas_matola",
-      "officialName": "Consórcio Águas da Matola e Boane",
-      "nuit": "400987123",
-      "address": "Estrada Velha da Matola, km 4",
-      "province": "Maputo Província",
-      "city": "Matola",
-      "phone": "+258 21 720 100",
-      "email": "suporte@aguasmatola.co.mz",
-      "representativeName": "Dr. Salvador Cossa",
-      "serviceAreas": [
-        "Matola C",
-        "Machava",
-        "Tsalala",
-        "Boane"
-      ],
-      "servicesDescription": "Operação complementar e manutenção da rede de adutoras na Matola e Boane.",
-      "status": "pendente",
-      "createdAt": "2026-03-08T14:20:00Z"
-    }
-  ],
-  "occurrences": [
-    {
-      "id": "occ_101",
-      "code": "GOTA-2026-1042",
-      "type": "tubagem_rompida",
-      "typeLabel": "Tubagem rompida",
-      "description": "Cano mestre rebentado perto da bomba de combustível. Grande caudal de água potável a escorrer para a estrada.",
-      "status": "em_resolucao",
-      "priority": "critica",
-      "priorityNeedsConfirmation": false,
-      "priorityReason": "Grande volume aparente de água limpa a alagar via movimentada com risco para tráfego.",
-      "location": {
-        "latitude": -25.9381,
-        "longitude": 32.5852,
-        "province": "Maputo Cidade",
-        "city": "Maputo",
-        "neighborhood": "Polana Caniço B",
-        "street": "Av. Vladimir Lenine",
-        "referencePoint": "A 50 metros da paragem de chapa da Dona Alice",
-        "isGpsAccurate": true
-      },
-      "photos": [
-        "https://images.unsplash.com/photo-1585314062340-f1a5a7c9328d?w=800&auto=format&fit=crop&q=80"
-      ],
-      "reporterContact": {
-        "name": "Joaquim Sitoe",
-        "phone": "+258 84 123 4567",
-        "userId": "usr_cidadao_1"
-      },
-      "assignedCompanyId": "comp_fipag_maputo",
-      "assignedCompanyName": "FIPAG  -  Área Metropolitana de Maputo",
-      "assignedTechnician": "Equipa Técnica Brigada 3",
-      "reportedAt": "2026-03-09T07:15:00Z",
-      "firstResponseAt": "2026-03-09T08:30:00Z",
-      "history": [
-        {
-          "id": "hist_1",
-          "previousStatus": null,
-          "newStatus": "recebida",
-          "changedBy": "Joaquim Sitoe (Cidadão)",
-          "changedByRole": "cidadao",
-          "note": "Ocorrência comunicada pelo cidadão através da aplicação.",
-          "timestamp": "2026-03-09T07:15:00Z"
-        },
-        {
-          "id": "hist_2",
-          "previousStatus": "recebida",
-          "newStatus": "em_analise",
-          "changedBy": "Sistema Gota",
-          "changedByRole": "admin",
-          "note": "Classificação de prioridade crítica atribuída com base no volume e alagamento na via.",
-          "timestamp": "2026-03-09T07:16:00Z"
-        },
-        {
-          "id": "hist_3",
-          "previousStatus": "em_analise",
-          "newStatus": "encaminhada",
-          "changedBy": "Carla Mondlane (Administração)",
-          "changedByRole": "admin",
-          "note": "Encaminhada formalmente para a FIPAG de acordo com a área de concessão de Polana Caniço B.",
-          "timestamp": "2026-03-09T08:30:00Z"
-        },
-        {
-          "id": "hist_4",
-          "previousStatus": "encaminhada",
-          "newStatus": "em_resolucao",
-          "changedBy": "Eng. Alberto Munguambe (FIPAG)",
-          "changedByRole": "empresa",
-          "note": "Válvula de seccionamento isolada. Brigada 3 no local a substituir o troço de conduta de 110mm.",
-          "timestamp": "2026-03-09T10:00:00Z"
-        }
-      ]
-    },
-    {
-      "id": "occ_102",
-      "code": "GOTA-2026-1043",
-      "type": "fuga_visivel",
-      "typeLabel": "Fuga visível",
-      "description": "Fuga persistente no passeio junto ao muro residencial. Água a verter há mais de 3 dias.",
-      "status": "intervencao_programada",
-      "priority": "media",
-      "priorityNeedsConfirmation": false,
-      "priorityReason": "Desperdício contínuo de água limpa, sem obstrução de via nem risco estrutural imediato.",
-      "location": {
-        "latitude": -25.9525,
-        "longitude": 32.5714,
-        "province": "Maputo Cidade",
-        "city": "Maputo",
-        "neighborhood": "Maxaquene",
-        "street": "Rua de Luanda, casa 32",
-        "referencePoint": "Perto do mercado informal",
-        "isGpsAccurate": true
-      },
-      "photos": [
-        "https://images.unsplash.com/photo-1541888946425-d0fbb186f5f8?w=800&auto=format&fit=crop&q=80"
-      ],
-      "assignedCompanyId": "comp_fipag_maputo",
-      "assignedCompanyName": "FIPAG  -  Área Metropolitana de Maputo",
-      "assignedTechnician": "Equipa de Manutenção B",
-      "reportedAt": "2026-03-08T11:40:00Z",
-      "firstResponseAt": "2026-03-08T15:00:00Z",
-      "history": [
-        {
-          "id": "hist_102_1",
-          "previousStatus": null,
-          "newStatus": "recebida",
-          "changedBy": "Anónimo (Cidadão)",
-          "changedByRole": "cidadao",
-          "note": "Comunicação registada sem registo de conta.",
-          "timestamp": "2026-03-08T11:40:00Z"
-        },
-        {
-          "id": "hist_102_2",
-          "previousStatus": "recebida",
-          "newStatus": "encaminhada",
-          "changedBy": "Sistema Gota",
-          "changedByRole": "admin",
-          "note": "Encaminhada automaticamente para a FIPAG.",
-          "timestamp": "2026-03-08T12:00:00Z"
-        },
-        {
-          "id": "hist_102_3",
-          "previousStatus": "encaminhada",
-          "newStatus": "intervencao_programada",
-          "changedBy": "Eng. Alberto Munguambe (FIPAG)",
-          "changedByRole": "empresa",
-          "note": "Inspeção preliminar realizada. Intervenção agendada para reparação do ramal predial.",
-          "timestamp": "2026-03-08T15:00:00Z"
-        }
-      ]
-    },
-    {
-      "id": "occ_103",
-      "code": "GOTA-2026-1039",
-      "type": "agua_alagar_via",
-      "typeLabel": "Água a alagar a via pública",
-      "description": "Água abundante a sair sob o asfalto, criando poça funda na curva.",
-      "status": "resolvida",
-      "priority": "alta",
-      "priorityNeedsConfirmation": false,
-      "priorityReason": "Alagamento da faixa de rodagem com deterioração do pavimento.",
-      "location": {
-        "latitude": -25.9689,
-        "longitude": 32.5898,
-        "province": "Maputo Cidade",
-        "city": "Maputo",
-        "neighborhood": "Bairro Central",
-        "street": "Av. 24 de Julho esquina com Av. Karl Marx",
-        "referencePoint": "Frente ao edifício dos Correios",
-        "isGpsAccurate": true
-      },
-      "photos": [
-        "https://images.unsplash.com/photo-1541888946425-d0fbb186f5f8?w=800&auto=format&fit=crop&q=80"
-      ],
-      "assignedCompanyId": "comp_fipag_maputo",
-      "assignedCompanyName": "FIPAG  -  Área Metropolitana de Maputo",
-      "assignedTechnician": "Brigada 1  -  FIPAG",
-      "reportedAt": "2026-03-06T09:10:00Z",
-      "firstResponseAt": "2026-03-06T10:00:00Z",
-      "resolvedAt": "2026-03-06T16:45:00Z",
-      "history": [
-        {
-          "id": "hist_103_1",
-          "previousStatus": null,
-          "newStatus": "recebida",
-          "changedBy": "Marta C. (Cidadã)",
-          "changedByRole": "cidadao",
-          "note": "Comunicação submetida pelo formulário web.",
-          "timestamp": "2026-03-06T09:10:00Z"
-        },
-        {
-          "id": "hist_103_2",
-          "previousStatus": "recebida",
-          "newStatus": "em_resolucao",
-          "changedBy": "Eng. Alberto Munguambe (FIPAG)",
-          "changedByRole": "empresa",
-          "note": "Brigada enviada com retroescavadora para localização da junta rompida.",
-          "timestamp": "2026-03-06T11:20:00Z"
-        },
-        {
-          "id": "hist_103_3",
-          "previousStatus": "em_resolucao",
-          "newStatus": "resolvida",
-          "changedBy": "Eng. Alberto Munguambe (FIPAG)",
-          "changedByRole": "empresa",
-          "note": "Junta de ferro fundido reparada com abraçadeira mecânica reforçada. Pavimento recomposto provisoriamente.",
-          "evidenceUrl": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80",
-          "timestamp": "2026-03-06T16:45:00Z"
-        }
-      ]
-    },
-    {
-      "id": "occ_104",
-      "code": "GOTA-2026-1044",
-      "type": "fuga_subterranea",
-      "typeLabel": "Possível fuga subterrânea",
-      "description": "O solo está afundado e a terra está permanentemente empapada de água limpa, mesmo em dias secos.",
-      "status": "em_analise",
-      "priority": "alta",
-      "priorityNeedsConfirmation": true,
-      "priorityReason": "Possível fuga subterrânea com risco de abatimento de solo. Requer confirmação técnica no terreno.",
-      "location": {
-        "latitude": -25.8601,
-        "longitude": 32.5592,
-        "province": "Maputo Cidade",
-        "city": "Maputo",
-        "neighborhood": "Zimpeto",
-        "street": "Próximo ao Estádio Nacional do Zimpeto",
-        "referencePoint": "Ao lado da rotunda de acesso à circular",
-        "isGpsAccurate": true
-      },
-      "photos": [],
-      "assignedCompanyId": "comp_fipag_maputo",
-      "assignedCompanyName": "FIPAG  -  Área Metropolitana de Maputo",
-      "reportedAt": "2026-03-09T14:00:00Z",
-      "history": [
-        {
-          "id": "hist_104_1",
-          "previousStatus": null,
-          "newStatus": "recebida",
-          "changedBy": "Raimundo Bila (Cidadão)",
-          "changedByRole": "cidadao",
-          "note": "Comunicação registada.",
-          "timestamp": "2026-03-09T14:00:00Z"
-        },
-        {
-          "id": "hist_104_2",
-          "previousStatus": "recebida",
-          "newStatus": "em_analise",
-          "changedBy": "Carla Mondlane (Administração)",
-          "changedByRole": "admin",
-          "note": "Sinalizada para averiguação geoacústica pela concessionária.",
-          "timestamp": "2026-03-09T14:30:00Z"
-        }
-      ]
-    }
-  ],
-  "auditLogs": [
-    {
-      "id": "aud_1792425264192_2yqh",
-      "timestamp": "2026-10-19T15:54:24.192Z",
-      "userId": "anon",
-      "userName": "Cidadão",
-      "userRole": "cidadao",
-      "action": "CRIAR_OCORRENCIA",
-      "targetType": "ocorrencia",
-      "targetId": "occ_1792425264188",
-      "details": "Nova ocorrência GOTA-2026-8741 registada no bairro Tsalala."
-    },
-    {
-      "id": "aud_1",
-      "timestamp": "2026-02-16T11:00:00Z",
-      "userId": "usr_admin_1",
-      "userName": "Carla Mondlane",
-      "userRole": "admin",
-      "action": "APROVACAO_EMPRESA",
-      "targetType": "empresa",
-      "targetId": "comp_fipag_maputo",
-      "details": "Empresa FIPAG  -  Área Metropolitana de Maputo aprovada como verificada após conferência documental."
-    },
-    {
-      "id": "aud_2",
-      "timestamp": "2026-03-09T08:30:00Z",
-      "userId": "usr_admin_1",
-      "userName": "Carla Mondlane",
-      "userRole": "admin",
-      "action": "ENCAMINHAMENTO_OCORRENCIA",
-      "targetType": "ocorrencia",
-      "targetId": "occ_101",
-      "details": "Ocorrência GOTA-2026-1042 encaminhada para FIPAG."
-    }
-  ],
-  "notifications": [
-    {
-      "id": "notif_1",
-      "userId": "usr_cidadao_1",
-      "title": "A tua ocorrência está a ser reparada",
-      "message": "A FIPAG iniciou a intervenção na ocorrência GOTA-2026-1042 em Polana Caniço B.",
-      "type": "info",
-      "read": false,
-      "link": "/ocorrencias/occ_101",
-      "createdAt": "2026-03-09T10:00:00Z"
-    }
-  ]
+﻿{
+    "users":  [
+                  {
+                      "id":  "usr_cidadao_1",
+                      "name":  "Joaquim Sitoe",
+                      "email":  "joaquim.sitoe@exemplo.mz",
+                      "phone":  "+258 84 123 4567",
+                      "role":  "cidadao",
+                      "createdAt":  "2026-03-01T08:00:00Z"
+                  },
+                  {
+                      "id":  "usr_empresa_1",
+                      "name":  "Eng. Alberto Munguambe",
+                      "email":  "operacoes@fipag-maputo.co.mz",
+                      "phone":  "+258 82 999 1122",
+                      "role":  "empresa",
+                      "companyId":  "comp_fipag_maputo",
+                      "createdAt":  "2026-02-15T09:30:00Z",
+                      "passwordHash":  "cb33c7f5fb6dd6653e89965ef05daf009b7a9d365e78b16722fcf69ca1d377a1"
+                  },
+                  {
+                      "id":  "usr_admin_1",
+                      "name":  "Carla Mondlane",
+                      "email":  "admin@gota.org.mz",
+                      "phone":  "+258 87 555 4321",
+                      "role":  "admin",
+                      "createdAt":  "2026-01-10T10:00:00Z",
+                      "passwordHash":  "6051fc84a7a0d74c225fb18a496b09952da5642e60723ecae543298edd7d82d6"
+                  }
+              ],
+    "companies":  [
+                      {
+                          "id":  "comp_fipag_maputo",
+                          "officialName":  "FIPAG  -  Ãrea Metropolitana de Maputo",
+                          "nuit":  "400123987",
+                          "address":  "Av. Eduardo Mondlane, n.Âº 1450",
+                          "province":  "Maputo Cidade",
+                          "city":  "Maputo",
+                          "phone":  "+258 21 300 400",
+                          "email":  "atendimento@fipag-maputo.co.mz",
+                          "representativeName":  "Eng. Alberto Munguambe",
+                          "serviceAreas":  [
+                                               "Polana CaniÃ§o A",
+                                               "Polana CaniÃ§o B",
+                                               "Maxaquene",
+                                               "Bairro Central",
+                                               "Chamanculo",
+                                               "Sommerschield",
+                                               "Zimpeto",
+                                               "Matola Rio"
+                                           ],
+                          "servicesDescription":  "CaptaÃ§Ã£o, tratamento, distribuiÃ§Ã£o e manutenÃ§Ã£o da rede de Ã¡gua potÃ¡vel na Grande Maputo.",
+                          "status":  "verificada",
+                          "verifiedAt":  "2026-02-16T11:00:00Z",
+                          "verifiedBy":  "Carla Mondlane (AdministraÃ§Ã£o)",
+                          "createdAt":  "2026-02-15T09:00:00Z"
+                      },
+                      {
+                          "id":  "comp_aguas_matola",
+                          "officialName":  "ConsÃ³rcio Ãguas da Matola e Boane",
+                          "nuit":  "400987123",
+                          "address":  "Estrada Velha da Matola, km 4",
+                          "province":  "Maputo ProvÃ­ncia",
+                          "city":  "Matola",
+                          "phone":  "+258 21 720 100",
+                          "email":  "suporte@aguasmatola.co.mz",
+                          "representativeName":  "Dr. Salvador Cossa",
+                          "serviceAreas":  [
+                                               "Matola C",
+                                               "Machava",
+                                               "Tsalala",
+                                               "Boane"
+                                           ],
+                          "servicesDescription":  "OperaÃ§Ã£o complementar e manutenÃ§Ã£o da rede de adutoras na Matola e Boane.",
+                          "status":  "pendente",
+                          "createdAt":  "2026-03-08T14:20:00Z"
+                      }
+                  ],
+    "occurrences":  [
+                        {
+                            "id":  "occ_101",
+                            "code":  "GOTA-2026-1042",
+                            "type":  "tubagem_rompida",
+                            "typeLabel":  "Tubagem rompida",
+                            "description":  "Cano mestre rebentado perto da bomba de combustÃ­vel. Grande caudal de Ã¡gua potÃ¡vel a escorrer para a estrada.",
+                            "status":  "em_resolucao",
+                            "priority":  "critica",
+                            "priorityNeedsConfirmation":  false,
+                            "priorityReason":  "Grande volume aparente de Ã¡gua limpa a alagar via movimentada com risco para trÃ¡fego.",
+                            "location":  {
+                                             "latitude":  -25.9381,
+                                             "longitude":  32.5852,
+                                             "province":  "Maputo Cidade",
+                                             "city":  "Maputo",
+                                             "neighborhood":  "Polana CaniÃ§o B",
+                                             "street":  "Av. Vladimir Lenine",
+                                             "referencePoint":  "A 50 metros da paragem de chapa da Dona Alice",
+                                             "isGpsAccurate":  true
+                                         },
+                            "photos":  [
+                                           "https://images.unsplash.com/photo-1585314062340-f1a5a7c9328d?w=800\u0026auto=format\u0026fit=crop\u0026q=80"
+                                       ],
+                            "reporterContact":  {
+                                                    "name":  "Joaquim Sitoe",
+                                                    "phone":  "+258 84 123 4567",
+                                                    "userId":  "usr_cidadao_1"
+                                                },
+                            "assignedCompanyId":  "comp_fipag_maputo",
+                            "assignedCompanyName":  "FIPAG  -  Ãrea Metropolitana de Maputo",
+                            "assignedTechnician":  "Equipa TÃ©cnica Brigada 3",
+                            "reportedAt":  "2026-03-09T07:15:00Z",
+                            "firstResponseAt":  "2026-03-09T08:30:00Z",
+                            "history":  [
+                                            {
+                                                "id":  "hist_1",
+                                                "previousStatus":  null,
+                                                "newStatus":  "recebida",
+                                                "changedBy":  "Joaquim Sitoe (CidadÃ£o)",
+                                                "changedByRole":  "cidadao",
+                                                "note":  "OcorrÃªncia comunicada pelo cidadÃ£o atravÃ©s da aplicaÃ§Ã£o.",
+                                                "timestamp":  "2026-03-09T07:15:00Z"
+                                            },
+                                            {
+                                                "id":  "hist_2",
+                                                "previousStatus":  "recebida",
+                                                "newStatus":  "em_analise",
+                                                "changedBy":  "Sistema Gota",
+                                                "changedByRole":  "admin",
+                                                "note":  "ClassificaÃ§Ã£o de prioridade crÃ­tica atribuÃ­da com base no volume e alagamento na via.",
+                                                "timestamp":  "2026-03-09T07:16:00Z"
+                                            },
+                                            {
+                                                "id":  "hist_3",
+                                                "previousStatus":  "em_analise",
+                                                "newStatus":  "encaminhada",
+                                                "changedBy":  "Carla Mondlane (AdministraÃ§Ã£o)",
+                                                "changedByRole":  "admin",
+                                                "note":  "Encaminhada formalmente para a FIPAG de acordo com a Ã¡rea de concessÃ£o de Polana CaniÃ§o B.",
+                                                "timestamp":  "2026-03-09T08:30:00Z"
+                                            },
+                                            {
+                                                "id":  "hist_4",
+                                                "previousStatus":  "encaminhada",
+                                                "newStatus":  "em_resolucao",
+                                                "changedBy":  "Eng. Alberto Munguambe (FIPAG)",
+                                                "changedByRole":  "empresa",
+                                                "note":  "VÃ¡lvula de seccionamento isolada. Brigada 3 no local a substituir o troÃ§o de conduta de 110mm.",
+                                                "timestamp":  "2026-03-09T10:00:00Z"
+                                            }
+                                        ]
+                        },
+                        {
+                            "id":  "occ_102",
+                            "code":  "GOTA-2026-1043",
+                            "type":  "fuga_visivel",
+                            "typeLabel":  "Fuga visÃ­vel",
+                            "description":  "Fuga persistente no passeio junto ao muro residencial. Ãgua a verter hÃ¡ mais de 3 dias.",
+                            "status":  "intervencao_programada",
+                            "priority":  "media",
+                            "priorityNeedsConfirmation":  false,
+                            "priorityReason":  "DesperdÃ­cio contÃ­nuo de Ã¡gua limpa, sem obstruÃ§Ã£o de via nem risco estrutural imediato.",
+                            "location":  {
+                                             "latitude":  -25.9525,
+                                             "longitude":  32.5714,
+                                             "province":  "Maputo Cidade",
+                                             "city":  "Maputo",
+                                             "neighborhood":  "Maxaquene",
+                                             "street":  "Rua de Luanda, casa 32",
+                                             "referencePoint":  "Perto do mercado informal",
+                                             "isGpsAccurate":  true
+                                         },
+                            "photos":  [
+                                           "https://images.unsplash.com/photo-1541888946425-d0fbb186f5f8?w=800\u0026auto=format\u0026fit=crop\u0026q=80"
+                                       ],
+                            "assignedCompanyId":  "comp_fipag_maputo",
+                            "assignedCompanyName":  "FIPAG  -  Ãrea Metropolitana de Maputo",
+                            "assignedTechnician":  "Equipa de ManutenÃ§Ã£o B",
+                            "reportedAt":  "2026-03-08T11:40:00Z",
+                            "firstResponseAt":  "2026-03-08T15:00:00Z",
+                            "history":  [
+                                            {
+                                                "id":  "hist_102_1",
+                                                "previousStatus":  null,
+                                                "newStatus":  "recebida",
+                                                "changedBy":  "AnÃ³nimo (CidadÃ£o)",
+                                                "changedByRole":  "cidadao",
+                                                "note":  "ComunicaÃ§Ã£o registada sem registo de conta.",
+                                                "timestamp":  "2026-03-08T11:40:00Z"
+                                            },
+                                            {
+                                                "id":  "hist_102_2",
+                                                "previousStatus":  "recebida",
+                                                "newStatus":  "encaminhada",
+                                                "changedBy":  "Sistema Gota",
+                                                "changedByRole":  "admin",
+                                                "note":  "Encaminhada automaticamente para a FIPAG.",
+                                                "timestamp":  "2026-03-08T12:00:00Z"
+                                            },
+                                            {
+                                                "id":  "hist_102_3",
+                                                "previousStatus":  "encaminhada",
+                                                "newStatus":  "intervencao_programada",
+                                                "changedBy":  "Eng. Alberto Munguambe (FIPAG)",
+                                                "changedByRole":  "empresa",
+                                                "note":  "InspeÃ§Ã£o preliminar realizada. IntervenÃ§Ã£o agendada para reparaÃ§Ã£o do ramal predial.",
+                                                "timestamp":  "2026-03-08T15:00:00Z"
+                                            }
+                                        ]
+                        },
+                        {
+                            "id":  "occ_103",
+                            "code":  "GOTA-2026-1039",
+                            "type":  "agua_alagar_via",
+                            "typeLabel":  "Ãgua a alagar a via pÃºblica",
+                            "description":  "Ãgua abundante a sair sob o asfalto, criando poÃ§a funda na curva.",
+                            "status":  "resolvida",
+                            "priority":  "alta",
+                            "priorityNeedsConfirmation":  false,
+                            "priorityReason":  "Alagamento da faixa de rodagem com deterioraÃ§Ã£o do pavimento.",
+                            "location":  {
+                                             "latitude":  -25.9689,
+                                             "longitude":  32.5898,
+                                             "province":  "Maputo Cidade",
+                                             "city":  "Maputo",
+                                             "neighborhood":  "Bairro Central",
+                                             "street":  "Av. 24 de Julho esquina com Av. Karl Marx",
+                                             "referencePoint":  "Frente ao edifÃ­cio dos Correios",
+                                             "isGpsAccurate":  true
+                                         },
+                            "photos":  [
+                                           "https://images.unsplash.com/photo-1541888946425-d0fbb186f5f8?w=800\u0026auto=format\u0026fit=crop\u0026q=80"
+                                       ],
+                            "assignedCompanyId":  "comp_fipag_maputo",
+                            "assignedCompanyName":  "FIPAG  -  Ãrea Metropolitana de Maputo",
+                            "assignedTechnician":  "Brigada 1  -  FIPAG",
+                            "reportedAt":  "2026-03-06T09:10:00Z",
+                            "firstResponseAt":  "2026-03-06T10:00:00Z",
+                            "resolvedAt":  "2026-03-06T16:45:00Z",
+                            "history":  [
+                                            {
+                                                "id":  "hist_103_1",
+                                                "previousStatus":  null,
+                                                "newStatus":  "recebida",
+                                                "changedBy":  "Marta C. (CidadÃ£)",
+                                                "changedByRole":  "cidadao",
+                                                "note":  "ComunicaÃ§Ã£o submetida pelo formulÃ¡rio web.",
+                                                "timestamp":  "2026-03-06T09:10:00Z"
+                                            },
+                                            {
+                                                "id":  "hist_103_2",
+                                                "previousStatus":  "recebida",
+                                                "newStatus":  "em_resolucao",
+                                                "changedBy":  "Eng. Alberto Munguambe (FIPAG)",
+                                                "changedByRole":  "empresa",
+                                                "note":  "Brigada enviada com retroescavadora para localizaÃ§Ã£o da junta rompida.",
+                                                "timestamp":  "2026-03-06T11:20:00Z"
+                                            },
+                                            {
+                                                "id":  "hist_103_3",
+                                                "previousStatus":  "em_resolucao",
+                                                "newStatus":  "resolvida",
+                                                "changedBy":  "Eng. Alberto Munguambe (FIPAG)",
+                                                "changedByRole":  "empresa",
+                                                "note":  "Junta de ferro fundido reparada com abraÃ§adeira mecÃ¢nica reforÃ§ada. Pavimento recomposto provisoriamente.",
+                                                "evidenceUrl":  "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800\u0026auto=format\u0026fit=crop\u0026q=80",
+                                                "timestamp":  "2026-03-06T16:45:00Z"
+                                            }
+                                        ]
+                        },
+                        {
+                            "id":  "occ_104",
+                            "code":  "GOTA-2026-1044",
+                            "type":  "fuga_subterranea",
+                            "typeLabel":  "PossÃ­vel fuga subterrÃ¢nea",
+                            "description":  "O solo estÃ¡ afundado e a terra estÃ¡ permanentemente empapada de Ã¡gua limpa, mesmo em dias secos.",
+                            "status":  "em_analise",
+                            "priority":  "alta",
+                            "priorityNeedsConfirmation":  true,
+                            "priorityReason":  "PossÃ­vel fuga subterrÃ¢nea com risco de abatimento de solo. Requer confirmaÃ§Ã£o tÃ©cnica no terreno.",
+                            "location":  {
+                                             "latitude":  -25.8601,
+                                             "longitude":  32.5592,
+                                             "province":  "Maputo Cidade",
+                                             "city":  "Maputo",
+                                             "neighborhood":  "Zimpeto",
+                                             "street":  "PrÃ³ximo ao EstÃ¡dio Nacional do Zimpeto",
+                                             "referencePoint":  "Ao lado da rotunda de acesso Ã  circular",
+                                             "isGpsAccurate":  true
+                                         },
+                            "photos":  [
+
+                                       ],
+                            "assignedCompanyId":  "comp_fipag_maputo",
+                            "assignedCompanyName":  "FIPAG  -  Ãrea Metropolitana de Maputo",
+                            "reportedAt":  "2026-03-09T14:00:00Z",
+                            "history":  [
+                                            {
+                                                "id":  "hist_104_1",
+                                                "previousStatus":  null,
+                                                "newStatus":  "recebida",
+                                                "changedBy":  "Raimundo Bila (CidadÃ£o)",
+                                                "changedByRole":  "cidadao",
+                                                "note":  "ComunicaÃ§Ã£o registada.",
+                                                "timestamp":  "2026-03-09T14:00:00Z"
+                                            },
+                                            {
+                                                "id":  "hist_104_2",
+                                                "previousStatus":  "recebida",
+                                                "newStatus":  "em_analise",
+                                                "changedBy":  "Carla Mondlane (AdministraÃ§Ã£o)",
+                                                "changedByRole":  "admin",
+                                                "note":  "Sinalizada para averiguaÃ§Ã£o geoacÃºstica pela concessionÃ¡ria.",
+                                                "timestamp":  "2026-03-09T14:30:00Z"
+                                            }
+                                        ]
+                        }
+                    ],
+    "auditLogs":  [
+                      {
+                          "id":  "aud_1792425264192_2yqh",
+                          "timestamp":  "2026-10-19T15:54:24.192Z",
+                          "userId":  "anon",
+                          "userName":  "CidadÃ£o",
+                          "userRole":  "cidadao",
+                          "action":  "CRIAR_OCORRENCIA",
+                          "targetType":  "ocorrencia",
+                          "targetId":  "occ_1792425264188",
+                          "details":  "Nova ocorrÃªncia GOTA-2026-8741 registada no bairro Tsalala."
+                      },
+                      {
+                          "id":  "aud_1",
+                          "timestamp":  "2026-02-16T11:00:00Z",
+                          "userId":  "usr_admin_1",
+                          "userName":  "Carla Mondlane",
+                          "userRole":  "admin",
+                          "action":  "APROVACAO_EMPRESA",
+                          "targetType":  "empresa",
+                          "targetId":  "comp_fipag_maputo",
+                          "details":  "Empresa FIPAG  -  Ãrea Metropolitana de Maputo aprovada como verificada apÃ³s conferÃªncia documental."
+                      },
+                      {
+                          "id":  "aud_2",
+                          "timestamp":  "2026-03-09T08:30:00Z",
+                          "userId":  "usr_admin_1",
+                          "userName":  "Carla Mondlane",
+                          "userRole":  "admin",
+                          "action":  "ENCAMINHAMENTO_OCORRENCIA",
+                          "targetType":  "ocorrencia",
+                          "targetId":  "occ_101",
+                          "details":  "OcorrÃªncia GOTA-2026-1042 encaminhada para FIPAG."
+                      }
+                  ],
+    "notifications":  [
+                          {
+                              "id":  "notif_1",
+                              "userId":  "usr_cidadao_1",
+                              "title":  "A tua ocorrÃªncia estÃ¡ a ser reparada",
+                              "message":  "A FIPAG iniciou a intervenÃ§Ã£o na ocorrÃªncia GOTA-2026-1042 em Polana CaniÃ§o B.",
+                              "type":  "info",
+                              "read":  false,
+                              "link":  "/ocorrencias/occ_101",
+                              "createdAt":  "2026-03-09T10:00:00Z"
+                          }
+                      ]
 }

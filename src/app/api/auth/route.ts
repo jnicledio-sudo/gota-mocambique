@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getCurrentUser, setSession, clearSession } from '../../../lib/auth';
+import { getCurrentUser, setSession, clearSession, hashPassword } from '../../../lib/auth';
 import { getDatabase } from '../../../lib/db';
 
 export async function GET() {
@@ -23,18 +23,30 @@ export async function POST(req: Request) {
       }
     }
 
-    // 2. Login por email ou criação simples de conta de cidadão
+    // 2. Login por email (com senha obrigatória para empresa/admin)
     if (email) {
+      const { password } = body;
       let user = db.users.find((u) => u.email.toLowerCase() === email.toLowerCase());
 
-      if (!user) {
-        // Criar novo utilizador cidadão
+      if (user) {
+        // Utilizadores institucionais requerem senha
+        if (user.role === 'empresa' || user.role === 'admin') {
+          if (!password) {
+            return NextResponse.json({ error: 'Senha obrigatória para acesso institucional.' }, { status: 401 });
+          }
+          if (!user.passwordHash || hashPassword(password) !== user.passwordHash) {
+            return NextResponse.json({ error: 'Senha incorrecta. Tente novamente.' }, { status: 401 });
+          }
+        }
+        // Cidadao: sem senha necessaria
+      } else {
+        // Novo utilizador: apenas cidadao pode ser criado por este fluxo
         user = {
           id: `usr_${Date.now()}`,
-          name: name || 'Cidadão',
+          name: name || 'Cidadao',
           email,
           phone: phone || '',
-          role: role || 'cidadao',
+          role: 'cidadao',
           createdAt: new Date().toISOString(),
         };
         db.users.push(user);

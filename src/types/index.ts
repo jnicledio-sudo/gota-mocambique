@@ -26,6 +26,7 @@ export interface User {
   id: string;
   name: string;
   email: string;
+  passwordHash?: string; // SHA-256 hex da senha (apenas para empresa e admin)
   phone?: string;
   role: UserRole;
   companyId?: string;
