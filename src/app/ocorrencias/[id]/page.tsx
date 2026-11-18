@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import Badge from '../../../components/Badge';
@@ -21,9 +21,40 @@ function OcorrenciaDetalheContent() {
   const [techNote, setTechNote] = useState('');
   const [technician, setTechnician] = useState('');
   const [evidenceUrl, setEvidenceUrl] = useState('');
+  const [evidencePreview, setEvidencePreview] = useState('');
+  const [compressingEvidence, setCompressingEvidence] = useState(false);
+  const evidenceInputRef = useRef<HTMLInputElement>(null);
   const [updating, setUpdating] = useState(false);
   const [updateSuccess, setUpdateSuccess] = useState('');
   const [updateError, setUpdateError] = useState('');
+
+  // Comprimir e converter foto de comprovativo para base64
+  const handleEvidenceFile = useCallback((file: File) => {
+    if (!file.type.startsWith('image/')) return;
+    setCompressingEvidence(true);
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      const img = new window.Image();
+      img.onload = () => {
+        const MAX = 1000;
+        let { width, height } = img;
+        if (width > MAX || height > MAX) {
+          if (width > height) { height = Math.round((height * MAX) / width); width = MAX; }
+          else { width = Math.round((width * MAX) / height); height = MAX; }
+        }
+        const canvas = document.createElement('canvas');
+        canvas.width = width; canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx?.drawImage(img, 0, 0, width, height);
+        const dataUrl = canvas.toDataURL('image/jpeg', 0.72);
+        setEvidenceUrl(dataUrl);
+        setEvidencePreview(dataUrl);
+        setCompressingEvidence(false);
+      };
+      img.src = ev.target?.result as string;
+    };
+    reader.readAsDataURL(file);
+  }, []);
 
   const loadData = async () => {
     try {
@@ -370,15 +401,58 @@ function OcorrenciaDetalheContent() {
 
             <div>
               <label className="block text-xs font-semibold text-[#123B5D] mb-1">
-                URL da fotografia de comprovativo da reparação (opcional)
+                Fotografia de comprovativo da reparacao (opcional)
               </label>
+
+              {/* Zona de upload */}
               <input
-                type="url"
-                placeholder="https://..."
-                value={evidenceUrl}
-                onChange={(e) => setEvidenceUrl(e.target.value)}
-                className="w-full text-xs p-2.5 rounded-xl border border-[#E1EBF0]"
+                ref={evidenceInputRef}
+                type="file"
+                accept="image/*"
+                capture="environment"
+                className="hidden"
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file) handleEvidenceFile(file);
+                }}
               />
+
+              {evidencePreview ? (
+                <div className="relative w-full rounded-xl overflow-hidden border border-[#E1EBF0]">
+                  <img
+                    src={evidencePreview}
+                    alt="Comprovativo da reparacao"
+                    className="w-full h-48 object-cover"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => { setEvidenceUrl(''); setEvidencePreview(''); if (evidenceInputRef.current) evidenceInputRef.current.value = ''; }}
+                    className="absolute top-2 right-2 bg-black/60 text-white text-[10px] font-bold px-2 py-1 rounded-full hover:bg-black/80 transition-colors"
+                  >
+                    Remover
+                  </button>
+                </div>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => evidenceInputRef.current?.click()}
+                  disabled={compressingEvidence}
+                  className="w-full border-2 border-dashed border-[#E1EBF0] hover:border-[#20B8D5] rounded-xl p-5 flex flex-col items-center gap-2 text-[#718493] transition-colors active:scale-[0.98]"
+                >
+                  {compressingEvidence ? (
+                    <span className="text-xs">A comprimir imagem...</span>
+                  ) : (
+                    <>
+                      <svg className="w-7 h-7 text-[#20B8D5]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+                      </svg>
+                      <span className="text-xs font-semibold text-[#123B5D]">Tirar foto ou escolher da galeria</span>
+                      <span className="text-[10px]">Toca aqui para anexar comprovativo da reparacao</span>
+                    </>
+                  )}
+                </button>
+              )}
             </div>
 
             <button
